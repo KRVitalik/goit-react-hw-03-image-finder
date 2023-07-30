@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Overlay } from "./Modal.styled";
+import { ModalStyled, Overlay } from "./Modal.styled";
 
 class Modal extends Component{
 
@@ -27,13 +27,14 @@ class Modal extends Component{
   }
   
   render() { 
-    const {largeImageURL}=this.props.image
+    const { largeImageURL } = this.props.image
+    
     return (
       <Overlay
         onClick={this.handleCloseClick}>
-  <Modal>
+  <ModalStyled>
     <img src={largeImageURL} alt="" />
-  </Modal>
+  </ModalStyled>
 </Overlay>
     );
   }
