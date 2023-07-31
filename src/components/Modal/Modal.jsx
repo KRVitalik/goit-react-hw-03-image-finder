@@ -1,10 +1,8 @@
 import { Component } from "react";
 import { ModalStyled, Overlay } from "./Modal.styled";
+import PropTypes from 'prop-types';
 
 class Modal extends Component{
-
-  state = { 
-  } 
 
   componentDidMount() {
     window.addEventListener("keydown", this.closeModalByEscape)
@@ -38,6 +36,10 @@ class Modal extends Component{
 </Overlay>
     );
   }
+}
+
+Modal.propTypes = {
+  image: PropTypes.object,
 }
  
 export default Modal;

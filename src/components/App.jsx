@@ -28,7 +28,9 @@ return this.setState({ modal:false })
     return (
       <>
         <Searchbar onSubmit={ this.handleSearchbarValue } />
-        <ImageGallery onClickOpenModal={this.onClickOpenModal} textValue={ textValue } />
+        <ImageGallery
+          onClickOpenModal={this.onClickOpenModal}
+          textValue={textValue} />
         {modal && <Modal closeModal={this.closeModal} image={ image } />}
       </>
     );

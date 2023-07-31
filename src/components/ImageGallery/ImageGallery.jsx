@@ -4,6 +4,7 @@ import ImageGalleryItem from "components/ImageGalleryItem/ImageGalleryItem";
 import Loader from "components/Loader/Loader";
 import { Component } from "react";
 import { GalleryContainer, ImageGalleryComponent } from "./ImageGallery.styled";
+import PropTypes from 'prop-types';
 
 class ImageGallery extends Component {
   state = {
@@ -76,6 +77,10 @@ render() {
         </GalleryContainer>
     );
   }
+}
+
+ImageGallery.propTypes = {
+    resp: PropTypes.object,
 }
 
 export default ImageGallery;
