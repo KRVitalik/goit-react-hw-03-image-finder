@@ -7,53 +7,42 @@ import { GalleryContainer, ImageGalleryComponent } from "./ImageGallery.styled";
 import PropTypes from 'prop-types';
 
 class ImageGallery extends Component {
-      state = {
+  state = {
     images: null,
     isLoading: false,
     page: 1,
     totalPage: 0,
     textInfo:"",
-  }  
-    
+  } 
+  
 componentDidUpdate(prevProps, prevState) {
-    if (this.props.textValue !== prevProps.textValue) {
-        this.setState({images: null, page:1,isLoading: true,})
-    getImages(this.props.textValue, 1)
-        .then((resp) => {
-            if (resp.data.total === 0) { this.ifUserEntersWrongRequestName() }
-            else this.ifLoadAllImages(resp)
-this.setState({ images: resp.data.hits, })
-})
-        .catch((error) => {this.errorInfo(error)})
-.finally(() => { this.setState({ isLoading: false, }) })
-    }else if (this.state.page !== prevState.page && this.state.page !== 1) {
-        this.setState({isLoading: true,})
-        getImages(this.props.textValue, this.state.page)
-        .then((resp) => {
-                    this.setState({ images: [...prevState.images, ...resp.data.hits] })
-            })
-        .catch((error) => {console.log(error) })
-        .finally(() => { this.setState({isLoading: false,})
- })
-        }
-    }
-
-          errorInfo = (error) => {
-  this.setState({
-      images: null,
-      totalPage: this.state.page,
-      textInfo: error.response.data,
+  const { page } = this.state;
+  const { textValue } = this.props;
+  if (prevProps.textValue !== textValue || prevState.page !== page) {
+    this.setState({isLoading: true })
+    getImages(textValue, page)
+      .then((resp) => {
+      
+      if (resp.data.total === 0) { this.ifUserEntersWrongRequestName() }
+      else this.ifLoadAllImages(resp)})
+    .finally(() => {
+      this.setState({ isLoading: false })
     })
-        return
-}
+  }       if (prevProps.textValue !== textValue) {
+      this.setState({
+        images: null,
+        page: 1,
+      })
+      }
+  }
 
-      ifUserEntersWrongRequestName = () => {
+  ifUserEntersWrongRequestName = () => {
   this.setState({
       images: null,
       totalPage: this.state.page,
       textInfo: "We didn't find any images for your request",
-  })
-          return
+    })
+        return
 }
   
   ifLoadAllImages = (resp) => {
@@ -66,15 +55,17 @@ this.setState({ images: resp.data.hits, })
       ))
   }
 
-handleLoadMore = () => {
-    this.setState((prevState) => ({ page: prevState.page + 1 }))
-    }
-
-    handleImageClick = (el) => {
+handleImageClick = (el) => {
     this.props.onClickOpenModal(el)
   }
 
-    render() { 
+handleLoadMore = () => {
+    this.setState((prevState) => ({
+      page: prevState.page + 1,
+    }));
+  };
+
+render() { 
   const {images, isLoading, totalPage, page, textInfo} = this.state
   return (
       <GalleryContainer>
@@ -91,5 +82,5 @@ handleLoadMore = () => {
 ImageGallery.propTypes = {
     resp: PropTypes.object,
 }
- 
+
 export default ImageGallery;
